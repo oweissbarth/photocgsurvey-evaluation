@@ -1,0 +1,119 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+
+<figure class="chartwrapper chartwrapper-headline">
+<div class="sidebyside">
+	<h3>CG</h3>
+	<canvas id="accuracy_cg"></canvas>
+</div>
+<div class="sidebyside">
+	<h3>photo</h3>
+	<canvas id="accuracy_photo"></canvas>
+</div>
+<figcaption><b>Figure :</b>Accuracy per class</figcaption>
+</figure>
+
+
+<script type="text/javascript">
+	var colors = [
+		"#35B26C",
+		"#B24043",
+		"#49ABFF"
+	]
+
+</script>
+
+<script>
+	var labels = {{labels}}
+	var data ={{accuracy_cg}}
+	var datasets = [{
+		"data": data,
+		"backgroundColor": colors
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	var ctx = document.getElementById('accuracy_cg').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'pie',
+	    data: data,
+	    options: {
+	    	plugins:{
+	    		datalabels:{
+	    			font:{
+	    				size: 22
+	    			},
+	    			color: ["#383838", "#FFF"],
+					formatter: (value, ctx) => {
+
+		              let sum = 0;
+		              let dataArr = ctx.chart.data.datasets[0].data;
+		              dataArr.map(data => {
+		                  sum += data;
+		              });
+		              let percentage = (value*100 / sum).toFixed(2)+"%";
+		              return percentage;
+            		}
+            	}
+	    	},
+	    	responsive: true,	    	
+	    	maintainAspectRatio: false
+
+	    }
+	});
+	var labels = {{labels}}
+	var data ={{accuracy_photo}}
+	var datasets = [{
+		"data": data,
+		"backgroundColor": colors
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	var ctx = document.getElementById('accuracy_photo').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'pie',
+	    data: data,
+	    options: {
+	    	plugins:{
+	    		datalabels:{
+	    			font:{
+	    				size: 22
+	    			},
+	    			color: ["#383838", "#FFF"],
+					formatter: (value, ctx) => {
+
+		              let sum = 0;
+		              let dataArr = ctx.chart.data.datasets[0].data;
+		              dataArr.map(data => {
+		                  sum += data;
+		              });
+		              let percentage = (value*100 / sum).toFixed(2)+"%";
+		              return percentage;
+            		}
+            	}
+	    	},
+	    	responsive: true,
+	    	maintainAspectRatio: false
+
+	    }
+	});
+</script>
+<style>
+	.sidebyside{
+		display: inline-block;
+		width: 49%;
+		max-height: 400px;
+		position: relative;
+		padding-bottom: 3em;
+
+	}
+	.sidebyside > h3{
+		text-align: center;
+	}
+	.chartwrapper-headline{
+		padding-bottom: 6em;
+	}
+</style>

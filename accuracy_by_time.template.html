@@ -1,0 +1,59 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+
+<figure class="chartwrapper">
+<canvas  id="accuracy_time"></canvas>
+<figcpation><b>Figure : </b>Time spent averaged over all images for each participant</figcpation>
+</figure>
+
+
+<script type="text/javascript">
+	var colors = [
+		"#35B26C",
+		"#B24043",
+		"#49ABFF"
+	]
+
+</script>
+
+<script>
+	var labels = {{labels}}
+	var data = {{data}}
+	var xy = data.map((e, i)=> ({"x":labels[i] , "y":data[i]} ))
+	var datasets = [{
+		"data": xy,
+		"backgroundColor": 		"#FFA348",
+		showLine: false,
+	    fill: false,
+	    pointRadius: 3
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	var ctx = document.getElementById('accuracy_time').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'scatter',
+	    data: data,
+	    options: {
+	    	legend:{
+	    		display: false
+	    	},
+	    	plugins:{
+	    		datalabels:{
+	    			display: false
+	    		}
+	    	},
+	    	scales:{
+	    		xAxes:[{
+	    			ticks: {
+                    	max: 120
+                	}
+	    		}]
+	    	},
+	    	responsive: true,
+	    	maintainAspectRatio: false
+	    },
+
+	});
+</script>

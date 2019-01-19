@@ -1,0 +1,55 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="color-scheme.min.js"></script>
+
+<h2> How much do you spend per week playing video games?</h2>
+<figure class="chartwrapper">
+<canvas id="accuracy_games"></canvas>
+<figcaption><b>Figure:</b>3D-graphics software usage by video game consumption</figcaption>
+</figure>
+
+<script type="text/javascript">
+	
+
+</script>
+
+<script>
+	var labels = {{labels}}
+	var data ={{data}}
+	var datasets = [{
+		"data": data,
+		"backgroundColor": 		"#FFA348",
+		showLine: false,
+	    fill: false,
+	    pointRadius: 7
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	var ctx = document.getElementById('accuracy_games').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'scatter',
+	    data: data,
+	    options: {
+	    	legend:{
+	    		display: false
+	    	},
+	    	plugins:{
+	    		datalabels:{
+	    			display: false
+	    		}
+	    	
+	    	},
+	    	responsive: true,
+	    	maintainAspectRatio: false,
+	    	scales:{
+	    		xAxes:[{
+	    			ticks: {
+                    	autoSkip: false
+                	}
+	    		}]
+	    	},
+
+	    },
+	});
+</script>

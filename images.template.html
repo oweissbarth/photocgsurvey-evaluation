@@ -1,0 +1,57 @@
+<div class="container">
+{% for key, value in results.items() %}
+	<div class="survey_image">
+		<a class="image-link" href="{{ images[key]['path'] }}">
+	    	<div class="preview" style="background-image: url({{ images[key]['path'] }})"></div>
+	    </a>
+	    <div class="correct_label">{{images[key]["type"]}}</div>
+	    <div class="credits">
+		    <div class="author">author: <b>{{images[key]["author"]}}</b></div>
+		    <div class="title">title: <b>{{images[key]["title"]}}</b></div>
+		    {% if images[key]["url"] %}
+		    <div class="link">source: <a target="_blank" href="{{images[key]["url"]}}">link</a></div>
+		    {% endif %}
+		</div>
+
+		<div class="average_accuracy">{{(value["correct"]/value["total"]*100) | round(2)}}%</div>
+
+	</div>
+{% endfor %}
+</div>
+<style>
+	.preview{
+		width: 200px;
+		height: 200px;
+		background-size: cover;
+		cursor: pointer;
+	}
+	.survey_image{
+		flex: 0;
+		/*border: 1px solid ;*/
+		box-shadow: 0 0 5px rgba(50, 50, 50, 0.5);
+		padding: 1em;
+		margin: 1em;
+		position: relative;
+	}
+	.container{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+	}
+	.correct_label{
+		font-size: 1.5em;
+		padding-bottom: 0.5em;
+	}
+
+	.credits{
+		color: rgb(70,70,70);
+		margin-bottom: 3.5em;
+	}
+
+	.average_accuracy{
+		font-size: 2em;
+		position: absolute;
+		bottom: 1em;
+	}
+</style>

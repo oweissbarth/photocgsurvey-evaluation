@@ -1,0 +1,59 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+
+<h2> How much do you spend per week playing video games?</h2>
+<figure class="chartwrapper">
+<canvas id="video_games"></canvas>
+ <figcaption><b>Figure 2:</b>Time spent playing video games per week</figcaption>
+</figure>
+
+<script type="text/javascript">
+	var colors = [
+		"#35B26C",
+		"#FFA348",
+		"#FCFF69",
+		"#B24043",
+		"#49ABFF"
+	]
+
+</script>
+
+<script>
+	var labels = {{labels}}
+	var data ={{data}}
+	var datasets = [{
+		"data": data,
+		"backgroundColor": colors
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	var ctx = document.getElementById('video_games').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'pie',
+	    data: data,
+	    options: {
+	    	plugins:{
+	    		datalabels:{
+	    			font:{
+	    				size: 22
+	    			},
+	    			color: ["#383838", "#383838", "#383838", "#FFF", "#FFF"],
+					formatter: (value, ctx) => {
+
+		              let sum = 0;
+		              let dataArr = ctx.chart.data.datasets[0].data;
+		              dataArr.map(data => {
+		                  sum += data;
+		              });
+		              let percentage = (value*100 / sum).toFixed(2)+"%";
+		              return percentage;
+            		}
+            	}
+	    	},
+	    	responsive: true,
+	    	maintainAspectRatio: false
+	    }
+	});
+</script>

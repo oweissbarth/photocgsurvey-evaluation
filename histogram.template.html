@@ -1,0 +1,150 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.5.0"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<h2> How often do you use 3d-graphics-software?</h2>
+<figure class="chartwrapper">
+<canvas id="histogram"></canvas>
+<figcaption><b>Figure 3:</b> A histogram over the accuracy of all participants</figcaption>
+</figure>
+<script type="text/javascript">
+	var colors = [
+		"#35B26C",
+		"#FFA348",
+		"#FCFF69",
+		"#B24043",
+		"#49ABFF",
+		"#35B26C",
+		"#FFA348",
+		"#FCFF69",
+		"#B24043",
+		"#49ABFF"
+	]
+
+</script>
+
+<script>
+	var labels = {{labels}}
+	var data ={{data}}
+	var datasets = [{
+		"data": data,
+		"backgroundColor": colors
+	}];
+	var data = {
+		"datasets": datasets,
+		"labels": labels
+	}
+	function fontinfo(context){
+		var width = context.chart.width;
+  		var size = Math.round(width / 64);
+  		if( width > 900){
+  			return {
+      		size: size,
+      		weight: 600
+    		};
+  		}else{
+  			return {
+      		size: size*2,
+      		weight: 600
+    		};
+  		}
+    	
+	}
+	function labelrotation(context){
+		var width = context.chart.width;
+		if(width > 900){
+			return 0;
+		}else{
+			return 90;
+		}
+	}
+	function labelanchor(context){
+		var width = context.chart.width;
+		if(width > 900){
+			return "center";
+		}else{
+			return "end";
+		}
+	}
+	function labelalign(context){
+		var width = context.chart.width;
+		if(width > 900){
+			return "center";
+		}else{
+			return "end";
+		}
+	}
+	function labelcolor(context){
+		var width = context.chart.width;
+		if(width > 900){
+			return ["#383838", "#383838", "#383838", "#FFF", "#FFF", "#383838", "#383838", "#383838", "#FFF", "#FFF"];
+		}else{
+			return "#383838";
+		}
+	}
+	function labelShadow(context){
+		var width = context.chart.width;
+		if(width > 900){
+			return [0, 0 , 0, 5, 5, 0, 0, 0, 5, 5];
+		}else{
+			return 0;
+		}
+	}
+	var ctx = document.getElementById('histogram').getContext('2d');
+	var myPieChart = new Chart(ctx,{
+	    type: 'bar',
+	    data: data,
+	    options: {
+	    	plugins:{
+	    		datalabels:{
+	    			font:fontinfo,
+	    			rotation: labelrotation,
+	    			anchor: labelanchor,
+	    			align: labelalign,
+
+	    			textShadowColor: "#000",
+	    			textShadowBlur: labelShadow,
+	    			color: labelcolor,
+					formatter: (value, ctx) => {
+
+		              let sum = 0;
+		              let dataArr = ctx.chart.data.datasets[0].data;
+		              dataArr.map(data => {
+		                  sum += data;
+		              });
+		              let percentage = (value*100 / sum).toFixed(2)+"%";
+		              return value;
+            		}
+            	}
+	    	},
+	    	legend:{
+	    		display: false
+	    	},
+	    	responsive: true,
+	    	maintainAspectRatio: false,
+	    	scales:{
+	    		xAxes:[{
+	    			ticks: {
+                    	autoSkip: false
+                	}
+	    		}],
+	    		yAxes:[
+	    			{
+	    				ticks: {
+                    		max: 900
+                		}
+	    			}
+	    		]
+	    	},
+	    }
+	});
+	
+</script>
+
+<style>
+	.chartwrapper{
+		position: relative;
+		height: 400px;
+	}
+</style>
